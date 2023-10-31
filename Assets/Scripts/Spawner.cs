@@ -58,6 +58,7 @@ public class Spawner : MonoBehaviour
             if(a > maxLifetime)
             {
                 a = Time.deltaTime * 1.0f;
+                //a;
                 // Devolver el objeto al pool en lugar de destruirlo
                 FruitPool.ReturnFruitToPool(prefab);
             }
