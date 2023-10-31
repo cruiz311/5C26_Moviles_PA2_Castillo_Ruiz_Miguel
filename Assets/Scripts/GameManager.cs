@@ -1,16 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public Text scoreText;
+    public Text scoreText1;
     public Image fadeImage;
 
     private Blade blade;
     private Spawner spawner;
 
-    private int score;
+    public Puntaje puntaje;
 
     private void Awake()
     {
@@ -32,29 +34,33 @@ public class GameManager : MonoBehaviour
         blade.enabled = true;
         spawner.enabled = true;
 
-        score = 0;
-        scoreText.text = score.ToString();
+        puntaje.resultados = 0;
+        scoreText.text = puntaje.resultados.ToString();
+        scoreText1.text = puntaje.resultados.ToString();
     }
 
     private void ClearScene()
     {
         Fruit[] fruits = FindObjectsOfType<Fruit>();
 
-        foreach (Fruit fruit in fruits) {
+        foreach (Fruit fruit in fruits)
+        {
             Destroy(fruit.gameObject);
         }
 
         Bomb[] bombs = FindObjectsOfType<Bomb>();
 
-        foreach (Bomb bomb in bombs) {
+        foreach (Bomb bomb in bombs)
+        {
             Destroy(bomb.gameObject);
         }
     }
 
     public void IncreaseScore(int points)
     {
-        score += points;
-        scoreText.text = score.ToString();
+        puntaje.resultados += points;
+        scoreText.text = puntaje.resultados.ToString();
+        scoreText1.text = puntaje.resultados.ToString();
     }
 
     public void Explode()
@@ -82,6 +88,9 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        // Llama a la función para cargar la escena de forma asíncrona
+        LoadSceneAsync("Results", LoadSceneMode.Single);
+
         yield return new WaitForSecondsRealtime(1f);
 
         NewGame();
@@ -100,4 +109,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // La función para cargar la escena de forma asíncrona
+    private void LoadSceneAsync(string sceneName, LoadSceneMode mode)
+    {
+        SceneGlobalManager.Instance.LoadSceneAsync(sceneName, mode);
+    }
 }

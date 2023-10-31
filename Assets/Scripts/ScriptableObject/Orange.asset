@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8874499f60143ef4690cd6a5ee74cf43, type: 3}
+  m_Name: Orange
+  m_EditorClassIdentifier: 
+  nombre: Orange
+  points: 1
+  fruitPrefab: {fileID: 6161171722280899850, guid: 024483f068cf0b145911881e8958d511, type: 3}

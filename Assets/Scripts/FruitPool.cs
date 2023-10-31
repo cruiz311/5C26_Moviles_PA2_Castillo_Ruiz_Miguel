@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class FruitPool:MonoBehaviour
 {
-    public GameObject[] fruitPrefabs; 
+    public List<FrutaSO> frutaDataList;
     public int poolSize = 3; 
 
-    private static List<GameObject> fruitPool; 
+    private static List<GameObject> fruitPool;
 
     private void Awake()
     {
@@ -14,12 +14,14 @@ public class FruitPool:MonoBehaviour
 
         for (int i = 0; i < poolSize; i++)
         {
-
-            GameObject enemy = Instantiate(fruitPrefabs[Random.Range(0, fruitPrefabs.Length)]);
-            enemy.SetActive(false);
-            fruitPool.Add(enemy);
+            FrutaSO randomFruitData = frutaDataList[Random.Range(0, frutaDataList.Count)];
+            GameObject fruitPrefab = randomFruitData.fruitPrefab;
+            GameObject fruit = Instantiate(fruitPrefab);
+            fruit.SetActive(false);
+            fruitPool.Add(fruit);
         }
     }
+
 
     public static GameObject GetFruit()
     {
