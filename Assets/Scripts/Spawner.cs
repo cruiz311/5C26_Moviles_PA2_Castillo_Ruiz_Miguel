@@ -4,20 +4,14 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     private Collider spawnArea;
-
-    public GameObject[] fruitPrefabs;
     public GameObject bombPrefab;
     [Range(0f, 1f)] public float bombChance = 0.05f;
-
     public float minSpawnDelay = 0.25f;
     public float maxSpawnDelay = 1f;
-
     public float minAngle = -15f;
     public float maxAngle = 15f;
-
     public float minForce = 18f;
     public float maxForce = 22f;
-
     public float maxLifetime = 5f;
 
     private void Awake()
@@ -41,9 +35,10 @@ public class Spawner : MonoBehaviour
 
         while (enabled)
         {
-            GameObject prefab = fruitPrefabs[Random.Range(0, fruitPrefabs.Length)];
+            GameObject prefab = FruitPool.GetFruit();
 
-            if (Random.value < bombChance) {
+            if (Random.value < bombChance)
+            {
                 prefab = bombPrefab;
             }
 
@@ -53,15 +48,20 @@ public class Spawner : MonoBehaviour
             position.z = Random.Range(spawnArea.bounds.min.z, spawnArea.bounds.max.z);
 
             Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(minAngle, maxAngle));
-
-            GameObject fruit = Instantiate(prefab, position, rotation);
-            Destroy(fruit, maxLifetime);
-
             float force = Random.Range(minForce, maxForce);
-            fruit.GetComponent<Rigidbody>().AddForce(fruit.transform.up * force, ForceMode.Impulse);
+            prefab.GetComponent<Rigidbody>().AddForce(prefab.transform.up * force, ForceMode.Impulse);
 
             yield return new WaitForSeconds(Random.Range(minSpawnDelay, maxSpawnDelay));
+
+            float a = 0.0f;
+
+            if(a > maxLifetime)
+            {
+                a = Time.deltaTime * 1.0f;
+                // Devolver el objeto al pool en lugar de destruirlo
+                FruitPool.ReturnFruitToPool(prefab);
+            }
+            
         }
     }
-
 }
